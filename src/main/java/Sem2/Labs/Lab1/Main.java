@@ -1,4 +1,4 @@
-package Sem2.Labs;
+package Sem2.Labs.Lab1;
 
 
 import java.io.File;

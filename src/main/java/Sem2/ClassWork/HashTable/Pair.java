@@ -1,4 +1,4 @@
-package Sem2.HashTable;
+package Sem2.ClassWork.HashTable;
 
 
 public class Pair {
