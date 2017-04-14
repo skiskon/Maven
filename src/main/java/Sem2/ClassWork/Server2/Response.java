@@ -1,4 +1,4 @@
-package Sem2.ClassWork.vbn;
+package Sem2.ClassWork.Server2;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
