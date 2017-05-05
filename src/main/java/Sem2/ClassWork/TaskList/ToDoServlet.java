@@ -1,55 +1,59 @@
 package Sem2.ClassWork.TaskList;
 
+import freemarker.cache.FileTemplateLoader;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
-/**
- * Created by admin on 21.04.2017.
- */
 public class ToDoServlet extends HttpServlet {
-    private ToDoList list = new ToDoList();
 
+    Configuration cfg = new Configuration (Configuration.VERSION_2_3_26);
     {
-        list.add("Привет");
+        try {
+            cfg.setTemplateLoader(new FileTemplateLoader(new File(".")));
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
-
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String uri = req.getRequestURI();
+        if ("/delete".equals(uri)){
+            String str = req.getParameter("id");
+            int id = Integer.parseInt(str);
+            list.delete(id);
+        }
+        String what = req.getParameter("task");
+        try {
+            list.add(what);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        resp.sendRedirect("/");
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        StringBuilder sb = new StringBuilder();
-        List<Item> items = list.view();
-        for (Item i : items) {
-            sb.append("<li>" + i.text + "</li>\n");
-        }
-
         resp.setCharacterEncoding("UTF-8");
-        resp.getWriter().write("<html>\n" +
-                "<head>\n" +
-                "    <meta charset=\"UTF-8\">\n" +
-                "    <title>Список задач</title>\n" +
-                "</head>\n" +
-                "<body>\n" +
-                "<form method=\"post\">\n" +
-                "    Задача: <input name=\"task\">\n" +
-                "    <input type=\"submit\" value=\"добавить\">\n" +
-                "</form>\n" +
-                "<ol>\n" +
-               sb +
-                "</ol>\n" +
-                "</body>\n" +
-                "</html>");
+        try {
+            Template t= cfg.getTemplate("HTML.html");
+            Map<String, Object> map= new HashMap<>();
+            map.put("tasks", list.view());
+            t.process(map, resp.getWriter());
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.sendError(500);
+        }
     }
+    private ToDoList list=new ToDoList();
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String instring = req.getParameter("task");
-        list.add(instring);
-        resp.sendRedirect("/");
-
-
-    }
 }

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset = "UTF-8">
+    <title> Список задач  </title>
+</head>
+<body>
+<form method = "post">
+    задача: <input name="task">
+    <input type= "submit"  value= "Добавить">
+</form>
+<ol>
+    <#list tasks as t>
+        <li>
+            <form method = "post" action = "delete">
+                ${t.text}
+                <input type="submit" value="УДАЛИТЬ">
+                <input name = "id" type="hidden" value="${t.id}">
+            </form>
+        </li>
+    </#list>
+</ol>
+</body>
+</html>
