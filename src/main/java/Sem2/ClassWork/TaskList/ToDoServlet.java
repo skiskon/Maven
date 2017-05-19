@@ -1,6 +1,7 @@
 package Sem2.ClassWork.TaskList;
 
 import freemarker.cache.FileTemplateLoader;
+import freemarker.core.HTMLOutputFormat;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
@@ -20,6 +21,7 @@ public class ToDoServlet extends HttpServlet {
     {
         try {
             cfg.setTemplateLoader(new FileTemplateLoader(new File(".")));
+            cfg.setOutputFormat(HTMLOutputFormat.INSTANCE);
         } catch (IOException e){
             e.printStackTrace();
         }
