@@ -31,11 +31,13 @@ public class RestServlet extends HttpServlet {
             else if (uri.startsWith("/rest/add")){
                 String text = req.getParameter("text");
                 list.add(text);
+                gson.toJson(list.view(),resp.getWriter());
             }
             else if (uri.startsWith("/rest/delete")){
                 String str = req.getParameter("id");
                 int id = Integer.parseInt(str);
                 list.delete(id);
+                gson.toJson(list.view(),resp.getWriter());
             }
         }catch (SQLException e){
             e.printStackTrace();

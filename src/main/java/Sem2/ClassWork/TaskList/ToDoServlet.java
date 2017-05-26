@@ -32,7 +32,11 @@ public class ToDoServlet extends HttpServlet {
         if ("/delete".equals(uri)){
             String str = req.getParameter("id");
             int id = Integer.parseInt(str);
-            list.delete(id);
+            try {
+                list.delete(id);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         String what = req.getParameter("task");
         try {

@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 
 public class ToDoMain {
-    public static void main(String[] args) {
+//public static void main(String[] args) {
 //        ToDoList list = new ToDoList();
 //        Scanner s = new Scanner(System.in);
 //        while (true) {
@@ -36,5 +36,5 @@ public class ToDoMain {
 //                    break;
 //            }
 //        }
-    }
+//    }
 }
